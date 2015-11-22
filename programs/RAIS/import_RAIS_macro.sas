@@ -1,12 +1,17 @@
 %macro import_RAIS_macro(statelist=,year=);
   /*count number of states and iterate over them*/
+  
   %do s = 1 %to %sysfunc(countw(&statelist));
     %let state = %scan(&statelist,&s); /*picks state from the list*/
-      options VALIDVARNAME=ANY;
+
+options VALIDVARNAME=ANY;
  LIBNAME CLEAN      "&trunk./clean/RAIS/&year.";
+ %let rawpath=&trunk./raw/RAIS/&year.;
+ filename raw pipe "7z x -so &rawpath./&state.&year.";
 
    data CLEAN.&state.&year.;
-   infile "&trunk./clean/RAIS/&year./&state.&year..txt"  delimiter = ';' MISSOVER DSD lrecl=32767 
+/*   infile "&trunk./clean/RAIS/&year./&state.&year..txt"  delimiter = ';' MISSOVER DSD lrecl=32767; */
+   infile raw delimiter = ';' MISSOVER DSD lrecl=32767;
    informat "Bairros SP"N $4. ;
    informat "Bairros Fortaleza"N $4. ;
    informat "Bairros RJ"N $4. ;
@@ -48,7 +53,6 @@
    informat "Tamanho Estabelecimento"N best32. ;
    informat "Tempo Emprego"N comma32. ;
    informat "Tipo Admissão"N best32. ;
-   informat "Tipo Estab"N best32. ;
    informat "Tipo Estab"N $4. ;
    informat "Tipo Defic"N best32. ;
    informat "Tipo Vínculo"N best32. ;
@@ -94,7 +98,6 @@
     "Tamanho Estabelecimento"N 
     "Tempo Emprego"N 
     "Tipo Admissão"N 
-    "Tipo Estab"N 
     "Tipo Estab"N $ 
     "Tipo Defic"N 
     "Tipo Vínculo"N ;

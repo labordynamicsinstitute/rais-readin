@@ -20,4 +20,5 @@ options obs=max fullstimer symbolgen mprint LRECL=600;
 
 
 %import_RAIS_macro(statelist=AC,year=2014);
+%import_RAIS_macro(statelist=AC SP,year=2014);
 
