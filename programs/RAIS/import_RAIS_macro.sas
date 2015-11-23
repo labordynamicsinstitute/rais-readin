@@ -7,7 +7,7 @@
 options VALIDVARNAME=ANY;
  LIBNAME CLEAN      "&trunk./clean/RAIS/&year.";
  %let rawpath=&trunk./raw/RAIS/&year.;
- filename raw pipe "7z x -so &rawpath./&state.&year.";
+ filename raw pipe "7z e -so &rawpath./&state.&year..7z 2>> error.log";
 
    data CLEAN.&state.&year.;
 /*   infile "&trunk./clean/RAIS/&year./&state.&year..txt"  delimiter = ';' MISSOVER DSD lrecl=32767; */
